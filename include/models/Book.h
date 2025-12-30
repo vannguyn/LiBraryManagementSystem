@@ -1,6 +1,7 @@
 #ifndef _BOOK_H_
 #define _BOOK_H_
 #include <string>
+#include <iostream>
 using namespace std;
 class Book {
     private:
@@ -22,5 +23,8 @@ class Book {
 
     // Setter
     void setQuantity(int quantity);
+
+    // Display
+    void display();
 };
 #endif

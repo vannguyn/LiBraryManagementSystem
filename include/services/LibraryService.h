@@ -15,6 +15,6 @@ class LibraryService {
     vector<Book> getAvailableBooks();
     vector<BorrowRecord> getBorrowHistory(int userId);
     bool borrowBook(int userId, int bookId, string date);
-    bool returnBook(int userId, int bookId);
+    bool returnBook(int userId, int bookId, string date);
 };
 #endif

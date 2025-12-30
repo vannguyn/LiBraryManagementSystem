@@ -1,6 +1,7 @@
 #ifndef _BORROWRECORD_H_
 #define _BORROWRECORD_H_
 #include <string>
+#include <iostream>
 using namespace std;
 
 class BorrowRecord {
@@ -22,5 +23,8 @@ class BorrowRecord {
 
     // Setter
     void markReturned();
+
+    // Display
+    void display();
 };
 #endif

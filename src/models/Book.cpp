@@ -33,3 +33,7 @@ int Book::getQuantity() const {
 void Book::setQuantity(int quantity) {
     this->quantity = quantity;
 }
+
+void Book::display() {
+    cout << this->id << " - " << this->title << " - " << this->author << " - " << this->quantity << '\n'; 
+}

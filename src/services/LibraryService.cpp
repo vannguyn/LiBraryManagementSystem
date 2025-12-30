@@ -34,7 +34,7 @@ bool LibraryService::borrowBook(int userId, int bookId, string date) {
     return false;
 }
 
-bool LibraryService::returnBook(int userId, int bookId) {
+bool LibraryService::returnBook(int userId, int bookId, string date) {
     for(auto& br : borrows) {
         if(br.getUserId() == userId && br.getBookId() == bookId && !br.isReturned()) {
             br.markReturned();

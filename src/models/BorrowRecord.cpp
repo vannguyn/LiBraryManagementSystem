@@ -26,3 +26,7 @@ bool BorrowRecord::isReturned() const {
 void BorrowRecord::markReturned() {
     returned = true;
 }
+
+void BorrowRecord::display() {
+    cout << "User ID: " << this->userId << " - " << this->bookId << " - " << this->date << '\n';
+}

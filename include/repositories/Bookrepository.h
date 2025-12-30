@@ -1,5 +1,5 @@
-#ifndef _BOOK_REPOSITORY_H
-#define _BOOK_REPOSITORY_H
+#ifndef _BOOKREPOSITORY_H
+#define _BOOKREPOSITORY_H
 
 #include "repositories/IBookRepository.h"
 #include <string>
