@@ -1,20 +1,24 @@
 #ifndef _LIBRARYSERVICE_H_
 #define _LIBRARYSERVICE_H_
 #include "repositories/IBookRepository.h"
-#include "models/BorrowRecord.h"
-#include <vector>
+#include "repositories/IUserRepository.h"
+#include "repositories/IBorrowRepository.h"
+
+
 class LibraryService {
     private:
-    IBookRepository *bookRepo;
-    vector<BorrowRecord> borrows;
+    IBookRepository* bookRepo;
+    IUserRepository* userRepo;
+    IBorrowRepository* borrowRepo;
 
     public:
-    // Constructor
-    LibraryService(IBookRepository* bookRepo);
 
-    vector<Book> getAvailableBooks();
-    vector<BorrowRecord> getBorrowHistory(int userId);
-    bool borrowBook(int userId, int bookId, string date);
-    bool returnBook(int userId, int bookId, string date);
+    LibraryService(IBookRepository* b, IUserRepository* u, IBorrowRepository* r);
+
+    void load();
+    void save();
+
+    bool borrowBook(int userId, int bookId);
+    bool returnBook(int userId, int bookId);
 };
 #endif

@@ -34,6 +34,29 @@ void Book::setQuantity(int quantity) {
     this->quantity = quantity;
 }
 
+void Book::setAuthor(string author) {
+    this->author = author;
+}
+
+string Book::toCSV() const {
+    stringstream ss;
+    ss << this->id << "," << this->title << "," << this->author << "," << this->quantity;
+    return ss.str();
+}
+
+Book Book::readFromCSV(const string& line) {
+    stringstream ss(line);
+    string item;
+    int id, quantity;
+    string title, author;
+
+    getline(ss, item, ','); id = std::stoi(item);
+    getline(ss, title, ',');
+    getline(ss, author, ',');
+    getline(ss, item, ','); quantity = std::stoi(item);
+    return Book(id, title, author, quantity);
+}
+
 void Book::display() {
     cout << this->id << " - " << this->title << " - " << this->author << " - " << this->quantity << '\n'; 
 }

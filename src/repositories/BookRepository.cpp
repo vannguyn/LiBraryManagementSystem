@@ -1,31 +1,30 @@
-#include "repositories\Bookrepository.h"
-BookRepository::BookRepository(const string& filename) {
-    this->filename = filename;
-}
+#include "repositories/BookRepository.h"
 
-vector<Book> BookRepository::getAll() {
-    vector<Book> books;
-    ifstream file(filename);
+void BookRepository::load() {
+    books.clear();
+    ifstream file("data/books.csv");
     string line;
     while(getline(file, line)) {
-        stringstream ss(line);
-        string id, title, author, quantity;
-        getline(ss, id, ',');
-        getline(ss, title, ',');
-        getline(ss, author, ',');
-        getline(ss, quantity, ',');
-
-        books.emplace_back(Book(stoi(id), title, author, stoi(quantity)));
+        books.push_back(Book::readFromCSV(line));
     }
+}
+
+void BookRepository::save() {
+    ofstream file("data/books.csv");
+    for(auto& book : books) {
+        file << book.toCSV() << '\n';
+    }
+}
+
+vector<Book>& BookRepository::getAll() {
     return books;
 }
 
-void BookRepository::save(const vector<Book>& books) {
-    ofstream file(filename);
-    for(auto& book : books) {
-        file << book.getId() << ','
-                << book.getTitle() << ','
-                << book.getAuthor() << ','
-                << book.getQuantity() << '\n';
-    }
+void BookRepository::add(const Book& b) {
+    books.push_back(b);
 }
+
+void BookRepository::remove(int id) {
+    books.erase(std::remove_if(books.begin(), books.end(), [&](Book& b) {return b.getId() == id;}), books.end());
+}
+

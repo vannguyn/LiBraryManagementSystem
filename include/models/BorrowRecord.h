@@ -2,6 +2,7 @@
 #define _BORROWRECORD_H_
 #include <string>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 class BorrowRecord {
@@ -13,6 +14,7 @@ class BorrowRecord {
 
     public:
     // Constructor
+    BorrowRecord();
     BorrowRecord(int userId, int bookId, string date, bool returned);
 
     // Getter
@@ -22,8 +24,12 @@ class BorrowRecord {
     bool isReturned() const;
 
     // Setter
-    void markReturned();
+    void setReturned(bool r);
 
+
+    string toCSV() const;
+    static BorrowRecord readFromCSV(const string& line);
+    
     // Display
     void display();
 };

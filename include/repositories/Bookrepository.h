@@ -1,24 +1,24 @@
-#ifndef _BOOKREPOSITORY_H
-#define _BOOKREPOSITORY_H
+#ifndef _BOOKREPOSITORY_H_
+#define _BOOKREPOSITORY_H_
 
 #include "repositories/IBookRepository.h"
 #include <string>
 #include <vector>
 #include <fstream>
-#include <sstream>
 
 using namespace std;
 
 class BookRepository : public IBookRepository {
     private:
-    string filename;
+    vector<Book> books;
 
     public:
-
-    BookRepository(const string& filename);
-
-    vector<Book> getAll() override;
-    void save(const vector<Book>& books) override;
+    void load() override;
+    void save() override;
+    vector<Book>& getAll() override;
+    Book* findById(int id) override;
+    void add(const Book& b) override;
+    void remove(int id) override;
 };
 
 #endif

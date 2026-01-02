@@ -17,3 +17,18 @@ int User::getId() const {
 string User::getName() const {
     return this->name;
 }
+
+string User::toCSV() const {
+    stringstream ss;
+    ss << this->id << "," << this->name;
+    return ss.str();
+}
+
+User User::readFromCSV(const string& line) {
+    stringstream ss(line);
+    string item, name;
+    int id;
+    getline(ss, item, ','); id = stoi(item);
+    getline(ss, name, ',');
+    return User(id, name);
+}

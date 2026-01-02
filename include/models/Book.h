@@ -2,6 +2,7 @@
 #define _BOOK_H_
 #include <string>
 #include <iostream>
+#include <sstream>
 using namespace std;
 class Book {
     private:
@@ -23,7 +24,10 @@ class Book {
 
     // Setter
     void setQuantity(int quantity);
+    void setAuthor(string author);
 
+    string toCSV() const;
+    static Book readFromCSV(const string& line);
     // Display
     void display();
 };

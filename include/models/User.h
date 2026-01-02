@@ -1,6 +1,7 @@
 #ifndef _USER_H_
 #define _USER_H_
 #include <string>
+#include <sstream>
 using namespace std;
 
 class User {
@@ -16,5 +17,8 @@ class User {
     // Getter
     int getId() const;
     string getName() const;
+
+    string toCSV() const;
+    static User readFromCSV(const string& line);
 };
 #endif

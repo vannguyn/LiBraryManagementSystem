@@ -5,8 +5,13 @@
 
 class IBookRepository {
     public:
-    virtual vector<Book> getAll() = 0;
-    virtual void save(const vector<Book>& books) = 0;
+    
+    virtual void load() = 0;
+    virtual void save() = 0;
+    virtual vector<Book>& getAll() = 0;
+    virtual Book* findById(int id) = 0;
+    virtual void add(const Book& b) = 0;
+    virtual void remove(int id) = 0;
     virtual ~IBookRepository() = default;
 };
 #endif
