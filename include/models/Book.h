@@ -25,6 +25,7 @@ class Book {
     // Setter
     void setQuantity(int quantity);
     void setAuthor(string author);
+    void setTitle(string title);
 
     string toCSV() const;
     static Book readFromCSV(const string& line);

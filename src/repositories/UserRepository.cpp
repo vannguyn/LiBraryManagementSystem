@@ -26,3 +26,14 @@ User* UserRepository::findById(int id) {
     }
     return nullptr;
 }
+
+void UserRepository::add(const User& u) {
+    users.push_back(u);
+    save();
+}
+
+void UserRepository::remove(int id) {
+    users.erase(std::remove_if(users.begin(), users.end(), 
+        [&](User& u) { return u.getId() == id; }), users.end());
+    save();
+}

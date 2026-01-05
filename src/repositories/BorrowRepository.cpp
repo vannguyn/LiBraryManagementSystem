@@ -22,4 +22,5 @@ vector<BorrowRecord>& BorrowRepository::getAll() {
 
 void BorrowRepository::add(const BorrowRecord& record) {
     records.push_back(record);
+    save();
 }

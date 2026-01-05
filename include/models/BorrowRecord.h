@@ -9,23 +9,25 @@ class BorrowRecord {
     private:
     int userId;
     int bookId;
-    string date;
+    string borrowDate;
+    string returnDate;
     bool returned;
 
     public:
     // Constructor
     BorrowRecord();
-    BorrowRecord(int userId, int bookId, string date, bool returned);
+    BorrowRecord(int userId, int bookId, string borrowDate, string returnDate, bool returned);
 
     // Getter
     int getUserId() const;
     int getBookId() const;
-    string getDate() const;
+    string getBorrowDate() const;
+    string getReturnDate() const;
     bool isReturned() const;
 
     // Setter
     void setReturned(bool r);
-
+    void setReturnDate(string date);
 
     string toCSV() const;
     static BorrowRecord readFromCSV(const string& line);

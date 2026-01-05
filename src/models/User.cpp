@@ -18,6 +18,10 @@ string User::getName() const {
     return this->name;
 }
 
+void User::setName(string name) {
+    this->name = name;
+}
+
 string User::toCSV() const {
     stringstream ss;
     ss << this->id << "," << this->name;

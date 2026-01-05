@@ -3,7 +3,9 @@
 #include "repositories/IBookRepository.h"
 #include "repositories/IUserRepository.h"
 #include "repositories/IBorrowRepository.h"
-
+#include <map>
+#include <algorithm>
+#include <iomanip>
 
 class LibraryService {
     private:
@@ -12,13 +14,35 @@ class LibraryService {
     IBorrowRepository* borrowRepo;
 
     public:
+    // Constructor
+    LibraryService(IBookRepository* bookRepo, IUserRepository* userRepo, IBorrowRepository* borrowRepo);
 
-    LibraryService(IBookRepository* b, IUserRepository* u, IBorrowRepository* r);
+    // Common
+    void loadData();
+    bool findBook(int bookId);
+    bool findUser(int userId);
+    // User
+    User* login(int userId);
+    vector<Book> getAvailableBooks();
+    vector<BorrowRecord> getBorrowHistory(int userId);
+    bool borrowBook(int userId, int bookId, string borrowDate);
+    bool returnBook(int userId, int bookId, string returnDate);
+    void displayInfoUser(int id);
 
-    void load();
-    void save();
+    // Admin
+    vector<Book>& getAllBooks();
+    void addBook(const Book& book);
+    bool updateBook(const Book& book);
+    void removeBook(int bookId);
+    bool updateBookQuantity(int bookId, int newQuantity);
 
-    bool borrowBook(int userId, int bookId);
-    bool returnBook(int userId, int bookId);
+    void addUser(const User& user);
+    bool updateUser(const User& user);
+    void removeUser(int userId);
+
+    vector<BorrowRecord>& getAllBorrowRecords();
+
+    // Display
+    void printStatistics();
 };
 #endif

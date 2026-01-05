@@ -2,6 +2,7 @@
 #define _BORROWREPOSITORY_H_
 #include "repositories/IBorrowRepository.h"
 #include <fstream>
+#include <algorithm>
 class BorrowRepository : public IBorrowRepository {
     private:
     vector<BorrowRecord> records;

@@ -9,5 +9,7 @@ class IUserRepository {
     virtual std::vector<User>& getAll() = 0;
     virtual User* findById(int id) = 0;
     virtual ~IUserRepository() = default;
-}
+    virtual void add(const User& u) = 0;
+    virtual void remove(int id) = 0;
+};
 #endif

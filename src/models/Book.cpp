@@ -38,6 +38,10 @@ void Book::setAuthor(string author) {
     this->author = author;
 }
 
+void Book::setTitle(string title) {
+    this->title = title;
+}
+
 string Book::toCSV() const {
     stringstream ss;
     ss << this->id << "," << this->title << "," << this->author << "," << this->quantity;

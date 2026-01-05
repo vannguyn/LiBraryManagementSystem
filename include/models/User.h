@@ -17,6 +17,9 @@ class User {
     // Getter
     int getId() const;
     string getName() const;
+    
+    // Setter
+    void setName(string name);
 
     string toCSV() const;
     static User readFromCSV(const string& line);
