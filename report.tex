@@ -1,0 +1,339 @@
+\documentclass[a4paper,12pt]{article}
+
+% ===================== PACKAGES =====================
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}
+\usepackage[vietnamese]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{listings}       % Để hiển thị code
+\usepackage{xcolor}         % Để tô màu code
+\usepackage[hidelinks]{hyperref} % Tạo mục lục có link
+\usepackage{float}
+\usepackage{titlesec}
+\usepackage{fancyvrb}       % Để hiển thị cây thư mục
+
+% ===================== CẤU HÌNH TRANG =====================
+\geometry{
+  a4paper,
+  left=25mm,
+  right=25mm,
+  top=25mm,
+  bottom=25mm,
+}
+
+% ===================== CẤU HÌNH CODE STYLE =====================
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{keywordcolor}{rgb}{0.0, 0.0, 1.0}
+
+\lstdefinestyle{cppstyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{keywordcolor}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=none,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+    frame=single,
+    language=C++,
+    extendedchars=true,
+    literate={đ}{{\dj}}1 {Đ}{{\DJ}}1 {á}{{\'a}}1 {à}{{\`a}}1 {ả}{{\'a}}1 {ã}{{\~a}}1 {ạ}{{\d{a}}}1 % Hỗ trợ tiếng Việt trong code
+}
+
+\lstset{style=cppstyle}
+
+% ===================== BẮT ĐẦU VĂN BẢN =====================
+\begin{document}
+
+% ===================== TRANG BÌA =====================
+\begin{titlepage} 
+    \centering 
+    %logo
+    \includegraphics[width=8cm, keepaspectratio]{lokhtn.png} \\ [1cm] 
+    {\Large \textbf{TRƯỜNG ĐẠI HỌC KHOA HỌC TỰ NHIÊN TP.HCM}}\\[0.5cm] 
+    {\large KHOA CÔNG NGHỆ THÔNG TIN}\\[2.5cm] 
+    
+    {\Huge \textbf{BÁO CÁO ĐỒ ÁN MÔN HỌC}}\\[0.5cm] 
+    {\Large \textbf{Xây dựng Ứng dụng Quản lý Thư viện}}\\[0.5cm]
+    {\large (Library Management System)}\\[2cm] 
+    
+    \begin{tabular}{ll} 
+        \textbf{Sinh viên thực hiện:} & Trần Văn Nguyên \\ 
+        \textbf{MSSV:} & 24120205 \\ 
+        \textbf{Lớp:} & 24CTT5 \\
+    \end{tabular} 
+    
+    \vfill
+    
+    {\large Tp. Hồ Chí Minh, \today}
+\end{titlepage} 
+
+% ===================== MỤC LỤC =====================
+\tableofcontents 
+\newpage
+
+% ===================== NỘI DUNG CHÍNH =====================
+
+\section{Tổng quan dự án}
+Dự án \textbf{Library Management System} là một ứng dụng console được viết bằng C++, quản lý việc mượn trả sách, người dùng và kho sách. Dự án tập trung vào việc áp dụng \textbf{kiến trúc phần mềm sạch (Clean Architecture)}, tuân thủ các nguyên lý \textbf{SOLID} và sử dụng các \textbf{Design Patterns} để đảm bảo tính dễ bảo trì và mở rộng.
+
+\section{Cấu trúc thư mục dự án}
+Dự án được tổ chức theo mô hình phân lớp tiêu chuẩn, tách biệt mã nguồn (src), mã đầu (include), dữ liệu (data) và kiểm thử (tests).
+
+\begin{Verbatim}[commandchars=\\\{\}]
+\textbf{LibraryManagementSystem/}
+|-- \textbf{app/}                   \textit{(Chứa các entry point của ứng dụng)}
+|   |-- main_admin.cpp      \textit{(Giao diện cho Admin)}
+|   |-- main_user.cpp       \textit{(Giao diện cho User)}
+|
+|-- \textbf{data/}                  \textit{(Lưu trữ CSDL dạng file CSV)}
+|   |-- books.csv
+|   |-- borrows.csv
+|   |-- users.csv
+|
+|-- \textbf{include/}               \textit{(Các file header .h)}
+|   |-- \textbf{models/}            \textit{(Định nghĩa thực thể dữ liệu)}
+|   |   |-- Book.h
+|   |   |-- BorrowRecord.h
+|   |   |-- User.h
+|   |-- \textbf{repositories/}      \textit{(Giao diện truy xuất dữ liệu)}
+|   |   |-- IBookRepository.h     \textit{(Interface)}
+|   |   |-- IBorrowRepository.h   \textit{(Interface)}
+|   |   |-- IUserRepository.h     \textit{(Interface)}
+|   |   |-- BookRepository.h      \textit{(Implementation)}
+|   |-- \textbf{services/}          \textit{(Logic nghiệp vụ)}
+|   |   |-- LibraryService.h
+|   |-- \textbf{ui/}                \textit{(Giao diện người dùng)}
+|   |   |-- AdminUI.h
+|   |   |-- UserUI.h
+|
+|-- \textbf{src/}                   \textit{(Các file mã nguồn .cpp)}
+|   |-- \textbf{models/}            \textit{(Cài đặt thực thể)}
+|   |-- \textbf{repositories/}      \textit{(Cài đặt xử lý file)}
+|   |-- \textbf{services/}          \textit{(Cài đặt nghiệp vụ)}
+|   |-- \textbf{ui/}                \textit{(Cài đặt giao diện)}
+|
+|-- \textbf{tests/}                 \textit{(Unit Tests)}
+|   |-- LibraryServiceTest.cpp
+|   |-- RepositoryTest.cpp
+
+\end{Verbatim}
+
+\newpage
+
+\section{Các nguyên lý SOLID được áp dụng}
+\subsection[Single Responsibility Principle (SRP)]{Single Responsibility Principle (SRP) - Nguyên lý đơn nhiệm}
+
+\textbf{Phát biểu:} Một class chỉ nên có một chức năng duy nhất để thay đổi.
+
+\textbf{Áp dụng trong dự án:}
+Dự án đã tách biệt hoàn toàn ba tầng trách nhiệm:
+\begin{itemize}
+    \item \textbf{Tầng Model (Book):} Chỉ chịu trách nhiệm lưu trữ cấu trúc dữ liệu và chuyển đổi dữ liệu (Serialization). Nếu cấu trúc sách thay đổi (thêm thuộc tính NXB), ta chỉ sửa class này.
+    \item \textbf{Tầng Repository (BookRepository):} Chỉ chịu trách nhiệm thao tác với file (I/O). Nếu thay đổi cách lưu file (từ CSV sang JSON), ta chỉ sửa class này.
+    \item \textbf{Tầng Service (LibraryService):} Chỉ chịu trách nhiệm logic nghiệp vụ. Nếu quy định mượn trả thay đổi, ta chỉ sửa class này.
+\end{itemize}
+
+\begin{lstlisting}
+// 1. Model: Chi chua du lieu (Data Holder)
+class Book {
+private:
+    int id;
+    string title;
+    string author;
+    int quantity;
+public:
+    // Co constructor, getter, setter va helper parse CSV
+    // Constructor
+    Book();
+    Book(int id, string title, string author, int quantity);
+
+    // Getter
+    int getId() const;
+    string getTitle() const;
+    string getAuthor() const;
+    int getQuantity() const;
+
+    // Setter
+    void setQuantity(int quantity);
+    void setAuthor(string author);
+    void setTitle(string title);
+
+    string toCSV() const;
+    static Book readFromCSV(const string& line);
+    // Display
+    void display();
+};
+
+// 2. Repository: Chi xu ly File I/O (Data Access)
+class BookRepository : public IBookRepository {
+    private:
+    vector<Book> books;
+
+    public:
+    void load() override;
+    void save() override;
+};
+\end{lstlisting}
+
+\subsection{2. Open/Closed Principle (OCP)}
+Hệ thống mở cho việc mở rộng nhưng đóng cho việc sửa đổi.
+\begin{itemize}
+    \item \textbf{Áp dụng:} \textbf{LibraryService} phụ thuộc vào \textbf{IBookRepository (Interface)}.
+    \item \textbf{Lợi ích:} Nếu muốn chuyển từ lưu file \textbf{CSV} sang \textbf{SQL Server}, ta chỉ cần tạo class \textbf{SqlBookRepository} kế thừa \textbf{IBookRepository}. Code của \textbf{LibraryService} hoàn toàn không cần sửa đổi.
+\end{itemize}
+
+\subsection{3. Liskov Substitution Principle (LSP)}
+Các lớp con phải có thể thay thế lớp cha. \textbf{BookRepository} có thể thay thế hoàn toàn cho \textbf{IBookRepository} trong mọi ngữ cảnh mà không gây lỗi logic.
+
+\subsection{4. Interface Segregation Principle (ISP)}
+Thay vì một Interface lớn \textbf{IRepository}, hệ thống tách nhỏ thành: \textbf{IBookRepository} và \textbf{IUserRepository}. Điều này giúp \textbf{Client (Service)} chỉ phụ thuộc vào những hàm nó thực sự cần.
+
+\subsection{5. Dependency Inversion Principle (DIP)}
+Module cấp cao \textbf{LibraryService} không phụ thuộc module cấp thấp \textbf{BookRepository}, mà phụ thuộc vào trừu tượng \textbf{IBookRepository}.
+
+\begin{lstlisting}
+class LibraryService {
+    private:
+    // Phu thuoc vao Interface, KHONG phu thuoc vao class cu the
+    IBookRepository* bookRepo;
+    IUserRepository* userRepo;
+    IBorrowRepository* borrowRepo;
+
+    public:
+    // Inject dependencies thong qua Constructor
+    LibraryService(IBookRepository* bookRepo, IUserRepository* userRepo, IBorrowRepository* borrowRepo);
+};
+\end{lstlisting}
+
+\newpage
+
+\section{Các Design Patterns sử dụng}
+
+\subsection{1. Repository Pattern}
+Mẫu này trừu tượng hóa việc truy xuất dữ liệu. Service không cần biết dữ liệu đến từ \textbf{file}, \textbf{RAM} hay \textbf{Database}.
+
+\subsection{2. Dependency Injection (DI)}
+Hệ thống sử dụng kỹ thuật \textbf{Constructor Injection} để tiêm các \textbf{dependencies} vào \textbf{Service} tại \textbf{main.cpp (Composition Root)}.
+
+\begin{lstlisting}
+int main() {
+    // 1. Khoi tao cac Implementation cu the
+    BookRepository bookRepo;
+    UserRepository userRepo;
+    BorrowRepository borrowRepo;
+
+    // 2. Tiem vao Service (Dependency Injection)
+    LibraryService service(&bookRepo, &userRepo, &borrowRepo);
+    service.loadData();
+
+    // 3. Tiem Service vao UI
+    AdminUI app(service);
+    app.run();
+    
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{3. Static Factory Method}
+Trong các class Model, phương thức \textbf{readFromCSV} đóng vai trò là một \textbf{Factory} đơn giản để tạo đối tượng từ chuỗi raw string.
+
+\newpage
+
+\section{Kiểm thử đơn vị (Unit Testing)}
+Dự án bao gồm \textbf{hai bộ test suite riêng biệt} để kiểm tra tính đúng đắn của \textbf{Repositories} và \textbf{Services}. Các test case sử dụng thư viện \textbf{cassert} để xác nhận kết quả (assertions).
+
+\subsection{Kiểm thử Repository (RepositoryTest.cpp)}
+Phần này kiểm tra các chức năng \textbf{CRUD} cơ bản (Thêm, Xóa, Tìm kiếm) của lớp lưu trữ dữ liệu.
+
+\begin{lstlisting}
+void testBookRepository() {
+    BookRepository repo;
+    repo.add(Book(1, "CPP", "Bjarne", 5));
+    repo.add(Book(2, "DSA", "CLRS", 3));
+
+    assert(repo.getAll().size() == 2);
+    Book* b = repo.findById(1);
+    assert(b != nullptr);
+    assert(b->getTitle() == "CPP");
+
+    repo.remove(1);
+    assert(repo.findById(1) == nullptr);
+    cout << "[PASS] BookRepository\n";
+}
+
+int main() {
+    testBookRepository();
+    testUserRepository();
+    testBorrowRepository();
+    cout << "=== ALL REPOSITORY TESTS PASSED ===\n";
+    return 0;
+}
+\end{lstlisting}
+
+\subsection{Kiểm thử Service (LibraryServiceTest.cpp)}
+Phần này kiểm tra các logic nghiệp vụ quan trọng như: \textbf{Đăng nhập}, \textbf{Mượn sách} (kiểm tra số lượng tồn kho), \textbf{Trả sách} (cập nhật trạng thái và tồn kho). 
+
+Nhờ áp dụng \textbf{Dependency Injection}, ta có thể khởi tạo \textbf{LibraryService} với các \textbf{Repository} mới tinh (trong bộ nhớ) để test mà không ảnh hưởng đến dữ liệu thực tế.
+
+\begin{lstlisting}
+void testBorrowAndReturn() {
+    BookRepository bookRepo;
+    UserRepository userRepo;
+    BorrowRepository borrowRepo;
+
+    // Setup data
+    bookRepo.add(Book(1, "C++", "Bjarne", 2));
+    userRepo.add(User(1, "Alice"));
+
+    LibraryService service(&bookRepo, &userRepo, &borrowRepo);
+
+    // Test Borrow logic
+    bool ok = service.borrowBook(1, 1, "2025-01-01");
+    assert(ok == true);
+    // Kiem tra so luong sach giam xuong con 1
+    assert(bookRepo.findById(1)->getQuantity() == 1);
+
+    // Test Return logic
+    ok = service.returnBook(1, 1, "2025-01-10");
+    assert(ok == true);
+    // Kiem tra so luong sach tang len lai 2
+    assert(bookRepo.findById(1)->getQuantity() == 2);
+
+    cout << "testBorrowAndReturn passed\n";
+}
+
+void testBorrowFail() {
+    // Setup repositories
+    bookRepo.add(Book(1, "OS", "Tanenbaum", 0)); // Sach het hang
+
+    LibraryService service(&bookRepo, &userRepo, &borrowRepo);
+
+    // Test muon sach khi het hang -> phai tra ve false
+    bool ok = service.borrowBook(1, 1, "2025-01-01");
+    assert(ok == false);
+    cout << "testBorrowFail passed\n";
+}
+\end{lstlisting}
+
+\section{Kết luận}
+Dự án đã xây dựng thành công một hệ thống quản lý thư viện với kiến trúc phần mềm vững chắc:
+\begin{enumerate}
+    \item \textbf{Tính tách biệt:} Phân chia rõ ràng giữa \textbf{Giao diện (UI)}, \textbf{Nghiệp vụ (Service)} và \textbf{Dữ liệu (Repository)}.
+    \item \textbf{Tính mở rộng:} Dễ dàng thay đổi cơ sở dữ liệu nhờ \textbf{Interface} và \textbf{Design Patterns}.
+    \item \textbf{Tính chính xác:} Được đảm bảo thông qua hệ thống \textbf{Unit Test} bao phủ các trường hợp sử dụng chính (\textbf{Login}, \textbf{Mượn}, \textbf{Trả}, \textbf{Hết hàng}).
+\end{enumerate}
+
+\end{document}
